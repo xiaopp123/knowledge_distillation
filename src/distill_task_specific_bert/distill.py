@@ -37,7 +37,7 @@ def main():
 
     num_epochs = 15
     batch_size = 64
-    alpha = 0.0
+    alpha = 0.5
     # 构建词表
     w2v = WordEmbedding(file_name='../../data/word2vec')
     # 使用bert的语料处理方式
@@ -88,7 +88,7 @@ def main():
                 teacher_pred_batch = FTensor(teacher_pred[idx: idx+batch_size])
                 # 交叉熵和均方误差
                 loss = alpha * cross_entropy_loss(log_softmax_val, y_list) + \
-                       (1 - alpha) * mse_loss(softmax_val, teacher_pred_batch)
+                       (1 - alpha) * mse_loss(logits, teacher_pred_batch)
             else:
                 loss = cross_entropy_loss(log_softmax_val, y_list)
             loss.backward()
